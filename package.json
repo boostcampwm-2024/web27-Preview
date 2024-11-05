@@ -11,6 +11,11 @@
   "devDependencies": {
     "@commitlint/cli": "^19.5.0",
     "@commitlint/config-conventional": "^19.5.0",
+    "@types/socket.io-client": "^3.0.0",
+    "@types/webrtc": "^0.0.44",
     "husky": "^9.1.6"
+  },
+  "dependencies": {
+    "socket.io-client": "^4.8.1"
   }
 }
