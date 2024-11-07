@@ -48,15 +48,31 @@ const VideoRoom = () => {
     const newSocket = io(import.meta.env.SIGNALING_SERVER_URL);
     setSocket(newSocket);
 
-    // 컴포넌트 언마운트 시 정리
+    // ref 값을 useEffect 안에서 캡처
+    const connections = peerConnections;
+
     return () => {
-      Object.values(peerConnections.current).forEach((pc) => pc.close());
-      if (myStream) {
-        myStream.getTracks().forEach((track) => track.stop());
-      }
+      Object.values(connections.current).forEach((pc) => {
+        // 모든 이벤트 리스너 제거
+        pc.ontrack = null;
+        pc.onicecandidate = null;
+        pc.oniceconnectionstatechange = null;
+        pc.onconnectionstatechange = null;
+        // 연결 종료
+        pc.close();
+      });
       newSocket.close();
     };
   }, []);
+
+  useEffect(() => {
+    // 미디어 스트림 정리 로직
+    return () => {
+      if (myStream) {
+        myStream.getTracks().forEach((track) => track.stop());
+      }
+    };
+  }, [myStream]);
 
   useEffect(() => {
     // socket 이벤트 리스너들 정리
