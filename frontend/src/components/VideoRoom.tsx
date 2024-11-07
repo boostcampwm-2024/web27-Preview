@@ -45,7 +45,7 @@ const VideoRoom = () => {
 
   useEffect(() => {
     // 소켓 연결
-    const newSocket = io("http://localhost:3000");
+    const newSocket = io(import.meta.env.SIGNALING_SERVER_URL);
     setSocket(newSocket);
 
     // 컴포넌트 언마운트 시 정리
