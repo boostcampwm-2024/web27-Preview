@@ -1,5 +1,5 @@
 import { FaCirclePlus } from "react-icons/fa6";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SessionCard from "../components/SessionCard.tsx";
 
 interface Session {
@@ -19,32 +19,40 @@ enum SessionStatus {
 }
 
 const SessionListPage = () => {
-  const [sessionList, setSessionList] = useState<Session[]>([
-    {
-      id: 1,
-      title: "프론트엔드 초보만 들어올 수 있음",
-      category: "프론트엔드",
-      sessionStatus: "open",
-      host: {
-        nickname: "J133",
-      },
-      participant: 1,
-      maxParticipant: 4,
-    },
-    {
-      id: 2,
-      title: "백엔드 초보만 들어올 수 있음",
-      category: "백엔드",
-      sessionStatus: "close",
-      host: {
-        nickname: "J000",
-      },
-      participant: 1,
-      maxParticipant: 2,
-    },
-  ]);
+  const [sessionList, setSessionList] = useState<Session[]>([]);
   const [listLoading, setListLoading] = useState(false);
 
+  useEffect(() => {
+    const sessionData: Session[] = [
+      {
+        id: 1,
+        title: "프론트엔드 초보만 들어올 수 있음",
+        category: "프론트엔드",
+        sessionStatus: "open",
+        host: {
+          nickname: "J133",
+        },
+        participant: 1,
+        maxParticipant: 4,
+      },
+      {
+        id: 2,
+        title: "백엔드 초보만 들어올 수 있음",
+        category: "백엔드",
+        sessionStatus: "close",
+        host: {
+          nickname: "J000",
+        },
+        participant: 1,
+        maxParticipant: 2,
+      },
+    ];
+
+    setTimeout(() => {
+      setSessionList(sessionData);
+      setListLoading(false);
+    }, 100);
+  }, []);
   const renderSessionList = (sessionStatus: SessionStatus) => {
     return sessionList.map((session) => {
       return (

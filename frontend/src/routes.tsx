@@ -1,7 +1,6 @@
 import App from "./App.tsx";
-import VideoContainer from "./components/VideoContainer.tsx";
 import SessionListPage from "./pages/SessionListPage.tsx";
-import SessionPage from './pages/SessionPage'
+import SessionPage from "./pages/SessionPage";
 
 export const routes = [
   {
@@ -10,22 +9,22 @@ export const routes = [
   },
   {
     element: <SessionPage />,
-    path: '/session/:sessionId'
+    path: "/session/:sessionId",
   },
   {
     element: <SessionListPage />,
-    path: '/sessions'
+    path: "/sessions",
   },
   {
     element: <>로그인 페이지</>,
-    path: '/login',
+    path: "/login",
   },
   {
     element: <>세션 생성 페이지</>,
-    path: '/sessions/create'
+    path: "/sessions/create",
   },
   {
     element: <>에러 페이지</>,
-    path: '/*'
-  }
+    path: "/*",
+  },
 ];

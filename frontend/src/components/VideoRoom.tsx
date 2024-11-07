@@ -25,10 +25,10 @@ const VideoRoom = () => {
   const [peers, setPeers] = useState<PeerConnection[]>([]); // 연결 관리
   const [roomId, setRoomId] = useState<string>("");
   const [nickname, setNickname] = useState<string>("");
-  const [isVideoOn, setIsVideoOn] = useState<boolean>(false);
-  const [isMicOn, setIsMicOn] = useState<boolean>(false);
+  const [isVideoOn, setIsVideoOn] = useState<boolean>(true);
+  const [isMicOn, setIsMicOn] = useState<boolean>(true);
 
-  const myVideoRef = useRef<HTMLVideoElement>(null);
+  const myVideoRef = useRef<HTMLVideoElement | null>(null);
   const peerConnections = useRef<{ [key: string]: RTCPeerConnection }>({});
   const peerVideoRefs = useRef<{ [key: string]: HTMLVideoElement | null }>({});
 
@@ -97,7 +97,7 @@ const VideoRoom = () => {
       });
 
       if (myVideoRef.current) {
-        myVideoRef.current.srcObject = stream;
+        myVideoRef.current!.srcObject = stream;
       }
       setMyStream(stream);
       return stream;

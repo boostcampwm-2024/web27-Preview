@@ -1,13 +1,12 @@
 import { useRef, useState } from "react";
 
 function App() {
-  const [startButtonActive, setStartButtonActive] = useState(true);
+  const [startButtonActive] = useState(true);
   const [status, setStatus] = useState("연결 대기중");
 
   const localVideoRef = useRef<HTMLVideoElement | null>(null);
   const remoteVideoRef = useRef<HTMLVideoElement | null>(null);
   // WebRTC 설정
-
 
   // 변수 선언
 
