@@ -13,6 +13,9 @@ export class CreateRoomDto {
     @IsNotEmpty()
     nickname: string;
 
+    @IsNotEmpty()
+    category: string;
+
     @IsNumber()
     @Min(1)
     @Max(5)
@@ -25,6 +28,9 @@ export class CreateRoomDto {
 export class CreateRoomInternalDto {
     @IsNotEmpty()
     title: string;
+
+    @IsNotEmpty()
+    category: string;
 
     @IsEnum(RoomStatus, {
         message: "Status must be either PUBLIC or PRIVATE",

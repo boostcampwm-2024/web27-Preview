@@ -7,11 +7,14 @@ export interface Connection {
 }
 
 export interface RoomDto {
-    roomId: string;
+    id: string;
     title: string;
+    category: string;
+    inProgress: boolean;
+    host: Connection;
     status: RoomStatus;
+    participants: number;
     maxParticipants: number;
     createdAt: number;
-    host: string;
     connectionList: Connection[];
 }

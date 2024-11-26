@@ -21,7 +21,7 @@ export class RoomCreateService {
 
     public async createRoom(dto: CreateRoomInternalDto) {
         const { socketId, nickname } = dto;
-        const roomId = await this.generateRoomId();
+        const id = await this.generateRoomId();
         const currentTime = Date.now();
         const questionListContents = await this.questionListRepository.getContentsByQuestionListId(
             dto.questionListId
@@ -29,18 +29,24 @@ export class RoomCreateService {
 
         const roomDto = {
             ...dto,
-            roomId,
+            id,
+            inProgress: false,
             connectionList: [],
+            participants: 0,
             questionListContents,
             createdAt: currentTime,
-            host: dto.socketId,
+            host: {
+                socketId: dto.socketId,
+                nickname,
+                createAt: currentTime,
+            },
         };
 
         await this.roomRepository.setRoom(roomDto);
 
-        await this.roomJoinService.joinRoom({ roomId, socketId, nickname }, true);
+        await this.roomJoinService.joinRoom({ roomId: id, socketId, nickname }, true);
 
-        this.socketService.emitToRoom(roomId, EMIT_EVENT.CREATE, roomDto);
+        this.socketService.emitToRoom(id, EMIT_EVENT.CREATE, roomDto);
     }
 
     // TODO: 동시성 고려해봐야하지 않을까?

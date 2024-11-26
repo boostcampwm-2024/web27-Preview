@@ -22,7 +22,7 @@ export class RoomJoinService {
 
         if (!socket) throw new Error("Invalid Socket");
 
-        if (room.roomId === null) throw new Error("Redis: RoomEntity Entity type error");
+        if (!room) throw new Error("RoomEntity Not found");
 
         if (this.isFullRoom(room)) return socket.emit(EMIT_EVENT.FULL, {});
 

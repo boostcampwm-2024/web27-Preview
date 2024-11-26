@@ -31,22 +31,22 @@ export class RoomLeaveService {
             (connection) => connection.socketId !== socketId
         );
 
-        if (!room.connectionList.length) return this.deleteRoom(room.roomId);
+        if (!room.connectionList.length) return this.deleteRoom(room.id);
 
         await this.roomRepository.setRoom(room);
 
-        if (room.host === socketId) return this.handleHostChange(socketId, room);
+        if (room.host.socketId === socketId) return this.handleHostChange(socketId, room);
 
-        this.socketService.emitToRoom(room.roomId, EMIT_EVENT.QUIT, { socketId });
+        this.socketService.emitToRoom(room.id, EMIT_EVENT.QUIT, { socketId });
     }
 
     private async handleHostChange(socketId: string, room: RoomDto) {
-        if (room.host !== socketId) return;
+        if (room.host.socketId !== socketId) return;
 
-        const newHost = await this.roomHostService.delegateHost(room.roomId);
+        const newHost = await this.roomHostService.delegateHost(room.id);
 
         // TODO : throw new Exception : host changed
-        this.socketService.emitToRoom(room.roomId, EMIT_EVENT.CHANGE_HOST, {
+        this.socketService.emitToRoom(room.id, EMIT_EVENT.CHANGE_HOST, {
             nickname: newHost.nickname,
             socketId: newHost.socketId,
         });

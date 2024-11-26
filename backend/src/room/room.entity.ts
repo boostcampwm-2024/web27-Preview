@@ -14,10 +14,16 @@ export enum RoomStatus {
 @Schema("room", {})
 export class RoomEntity extends Entity {
     @Field({ type: "string", indexed: true })
-    roomId: string;
+    id: string;
 
     @Field({ type: "string" })
     title: string;
+
+    @Field({ type: "string" })
+    category: string;
+
+    @Field({ type: "boolean" })
+    inProgress: boolean;
 
     @Field({ type: "string" })
     status: RoomStatus;
@@ -28,9 +34,11 @@ export class RoomEntity extends Entity {
     @Field({ type: "number", sortable: true })
     createdAt: number;
 
+    // Connection
     @Field({ type: "string" })
     host: string;
 
+    // Connection[]
     @Field({ type: "string" })
     connectionList: string;
 }

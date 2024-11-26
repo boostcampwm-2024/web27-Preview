@@ -21,7 +21,7 @@ export class RoomHostService {
         );
         if (!found) throw new Error("invalid new host id");
 
-        room.host = newHost.socketId;
+        room.host = newHost;
 
         await this.roomRepository.setRoom(room);
         return newHost;
