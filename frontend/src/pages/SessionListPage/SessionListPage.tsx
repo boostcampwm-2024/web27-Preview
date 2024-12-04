@@ -21,8 +21,8 @@ const SessionListPage = () => {
 
   return (
     <SidebarPageLayout>
-      <div className={"flex flex-col max-w-6xl w-full px-12 pt-20 pb-4"}>
-        <div className="">
+      <div className={"flex flex-col gap-8 max-w-6xl w-full px-12 pt-20 pb-4"}>
+        <div className="mb-4">
           <h1 className={"text-bold-l mb-6"}>스터디 채널</h1>
           <div className={"h-11 flex gap-2 w-full"}>
             <CategorySelect
@@ -33,7 +33,7 @@ const SessionListPage = () => {
             <SearchBar text="세션을 검색하세요" />
           </div>
         </div>
-        <div className="relative flex justify-between mt-4 pt-4  mb-12 ">
+        <div className="relative flex justify-between">
           <TabContainer currentTab={currentTab} setCurrentTab={setCurrentTab} />
           <Link
             to="/sessions/create"
@@ -44,11 +44,7 @@ const SessionListPage = () => {
           </Link>
           <div className="absolute bottom-0 -z-10 w-full h-0.1 bg-gray-100" />
         </div>
-        <SessionList
-          inProgress={currentTab}
-          sessionList={sessionList || []}
-          listLoading={isLoading}
-        />
+        <SessionList inProgress={currentTab} sessionList={sessionList || []} listLoading={isLoading} />
         <ErrorBlock
           error={error}
           message={"서버에서 세션 목록을 불러오는데 실패했습니다"}

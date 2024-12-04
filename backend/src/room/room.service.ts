@@ -59,6 +59,8 @@ export class RoomService {
 
         await this.roomRepository.setRoom(room);
 
+        socket.emit(EMIT_EVENT.CREATE, room);
+
         return {
             nickname: createRoomDto.nickname,
             participants: 0,

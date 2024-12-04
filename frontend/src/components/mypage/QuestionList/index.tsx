@@ -20,7 +20,7 @@ const QuestionList = ({ tab, page }: ListProps) => {
   } = useGetScrapQuestionList({ page, limit: 8 });
 
   const currentQuestionList =
-    tab === "myList" ? myData?.myQuestionLists : scrapData?.questionList;
+    tab === "myList" ? myData?.myQuestionLists : scrapData?.questionLists;
   const isLoading = tab === "myList" ? isMyListLoading : isScrapListLoading;
   const error = tab === "myList" ? myListError : scrapListError;
 

@@ -51,12 +51,12 @@ export class RoomGateway implements OnGatewayDisconnect, OnGatewayInit, OnGatewa
 
     public async handleDisconnect(client: Socket) {
         await this.handleLeaveRoom(client);
-        this.logger.log(`Client disconnected: ${client.handshake.address}:${client.id}`);
+        this.logger.log(`Client disconnected: ${client.id}`);
         await this.infraService.removeSocketMetadata(client);
     }
 
     public async handleConnection(client: Socket) {
-        this.logger.log(`Client connected: ${client.handshake.address}:${client.id}`);
+        this.logger.log(`Client disconnected: ${client.id}`);
         await this.infraService.createSocketMetadata(client);
     }
 

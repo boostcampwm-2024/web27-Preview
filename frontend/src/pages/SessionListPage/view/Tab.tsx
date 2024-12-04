@@ -6,24 +6,24 @@ interface TabProps {
 
 const Tab = ({ currentTab, tabStatus, setCurrentTab }: TabProps) => {
   return (
-    <>
-      <button
-        className={`w-32 h-full  
-      ${
-        currentTab === tabStatus
-          ? "text-green-600 text-semibold-r"
-          : "text-semibold-r text-gray-400"
-      }`}
-        onClick={() => setCurrentTab(tabStatus)}
+    <button
+      className={`flex flex-row gap-1
+      ${currentTab === tabStatus
+          ? "text-bold-s text-green-400"
+          : "text-medium-l text-gray-400"
+        }`}
+      onClick={() => setCurrentTab(tabStatus)}
+    >
+      <span
+        className={`px-1 pb-1.5 border-b-2
+        ${currentTab === tabStatus ? "border-green-400" : "border-transparent"}`}
       >
-        <span
-          className={`block py-2
-        ${currentTab === tabStatus ? " " : "border-transparent"}`}
-        >
-          {tabStatus ? "진행 중인 세션" : "공개된 세션"}
-        </span>
-      </button>
-    </>
+        {tabStatus ? "진행 중인 세션" : "공개된 세션"}
+      </span>
+      <div
+        className={`border-b-2 ${currentTab === tabStatus ? "border-green-400" : "border-transparent"} transition-all duration-200`}
+      />
+    </button>
   );
 };
 

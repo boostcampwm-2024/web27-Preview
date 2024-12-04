@@ -1,7 +1,6 @@
 import Button from "@/components/common/Button/DefaultButton";
 import { FaBookmark, FaRegBookmark } from "react-icons/fa";
 import { IoMdShare } from "react-icons/io";
-import useAuth from "@hooks/useAuth.ts";
 
 interface ButtonSectionProps {
   scrapQuestionList: () => void;
@@ -16,7 +15,6 @@ const ButtonSection = ({
   isScrapped,
   shareQuestionList,
 }: ButtonSectionProps) => {
-  const { isLoggedIn } = useAuth();
   return (
     <div className="flex w-full gap-4 mt-4">
       <Button
@@ -26,7 +24,6 @@ const ButtonSection = ({
         onClick={shareQuestionList}
       />
       <Button
-        disabled={!isLoggedIn}
         text={isScrapped ? "스크랩 취소" : "스크랩하기"}
         type={isScrapped ? "gray" : "green"}
         icon={isScrapped ? FaBookmark : FaRegBookmark}

@@ -41,7 +41,7 @@ const QuestionTitle = ({ questionId }: { questionId: string }) => {
         </div>
         <div className="flex gap-1 items-center">
           <FaRegBookmark />
-          <span>{question.scrapCount}</span>
+          <span>{question.usage}</span>
         </div>
       </div>
     </div>

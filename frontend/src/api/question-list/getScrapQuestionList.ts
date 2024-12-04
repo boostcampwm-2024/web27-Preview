@@ -25,7 +25,7 @@ interface ApiResponse {
   success: boolean;
   message: string;
   data: {
-    questionList: QuestionList[];
+    questionLists: QuestionList[];
     meta: {
       itemsPerPage: number;
       totalItems: number;

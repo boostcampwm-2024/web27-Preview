@@ -1,6 +1,8 @@
 import SearchBar from "@components/common/Input/SearchBar.tsx";
 import CategorySelect from "@components/common/Select/CategorySelect.tsx";
 import { options } from "@/constants/CategoryData.ts";
+import CreateButton from "@components/common/Button/CreateButton.tsx";
+import { IoMdAdd } from "react-icons/io";
 import Tabs from "@/pages/QuestionListPage/view/Tabs.tsx";
 
 interface QuestionListHeaderProps {
@@ -28,6 +30,11 @@ const QuestionListHeader = ({
           options={options}
         />
         <SearchBar text={"질문지 검색하기"} />
+        <CreateButton
+          path={"/questions/create"}
+          text={"새로운 질문지"}
+          icon={IoMdAdd}
+        />
       </div>
       <Tabs tab={tab} setTab={setTab} />
     </div>
