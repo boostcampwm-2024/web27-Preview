@@ -52,7 +52,7 @@ const useSessionFormStore = create<SessionFormState>((set, get) => ({
     return (
       state.category.trim() !== "" &&
       state.sessionName.trim() !== "" &&
-      state.sessionName.trim().length > 5 &&
+      state.sessionName.trim().length >= 5 &&
       state.questionId > 0 &&
       state.questionTitle.trim() !== ""
     );

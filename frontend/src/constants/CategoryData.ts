@@ -5,11 +5,11 @@ export const options = [
   },
   {
     value: "프론트엔드",
-    label: "FE",
+    label: "프론트엔드",
   },
   {
     value: "백엔드",
-    label: "BE",
+    label: "백엔드",
   },
   {
     value: "운영체제",

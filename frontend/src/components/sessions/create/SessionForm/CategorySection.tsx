@@ -1,17 +1,7 @@
 import SelectTitle from "@/components/common/Text/SelectTitle";
 import useSessionFormStore from "@/pages/CreateSessionPage/stores/useSessionFormStore";
 import CategorySelect from "@/components/common/Select/CategorySelect";
-
-const options = [
-  {
-    value: "프론트엔드",
-    label: "프론트엔드",
-  },
-  {
-    value: "백엔드",
-    label: "백엔드",
-  },
-];
+import { options } from "@/constants/CategoryData.ts";
 
 const CategorySection = () => {
   const { category, setCategory } = useSessionFormStore();

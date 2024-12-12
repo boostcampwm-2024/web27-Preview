@@ -11,6 +11,10 @@ const CreateSessionPage = () => {
 
   useEffect(() => {
     resetForm();
+
+    return () => {
+      resetForm();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

@@ -1,7 +1,7 @@
-import axios from "axios";
+import { api } from "@/api/config/axios.ts";
 
 const getQuestionContent = async (questionListId: number) => {
-  const response = await axios.post("/api/question-list/contents", {
+  const response = await api.post("/api/question-list/contents", {
     questionListId,
   });
 

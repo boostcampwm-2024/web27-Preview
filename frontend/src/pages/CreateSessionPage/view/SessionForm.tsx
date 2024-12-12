@@ -75,7 +75,7 @@ const SessionForm = () => {
       socket.off(SESSION_LISTEN_EVENT.CREATE, roomCreatedHandler);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [socket, navigate]);
+  }, [socket]);
 
   return (
     <div className="flex flex-col gap-7 p-8 bg-gray-white shadow-8 w-47.5 rounded-custom-l">

@@ -7,7 +7,7 @@ const TitleSection = () => {
 
   return (
     <div>
-      <SelectTitle title="스터디 세션" />
+      <SelectTitle title="스터디 채널 이름" />
       <TitleInput
         placeholder="예) 프론트엔드 면접 스터디"
         onChange={(e) => setSessionName(e.target.value)}
