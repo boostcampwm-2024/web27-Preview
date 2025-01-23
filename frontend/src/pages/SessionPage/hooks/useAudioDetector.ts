@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { convertAmplitudeToDecibels, extractAudioLevelFromStats } from "./utils/covertToDecibels.ts";
 
 interface UseAudioDetectorProps {
   localStream: MediaStream | null;
@@ -10,8 +11,8 @@ interface AudioLevels {
   [peerId: string]: boolean;
 }
 
-const CHECK_PEERCONNECTION = 1000;
-const TIMER_INTERVAL = 100;
+const CHECK_PEERCONNECTION_MS = 1000;
+const TIMER_INTERVAL_MS = 100;
 
 export const useAudioDetector = ({
   localStream,
@@ -33,7 +34,7 @@ export const useAudioDetector = ({
       if (currentCount !== connectionCount) {
         setConnectionCount(currentCount);
       }
-    }, CHECK_PEERCONNECTION);
+    }, CHECK_PEERCONNECTION_MS);
 
     return () => clearInterval(checkConnections);
   }, [peerConnections, connectionCount]);
@@ -41,7 +42,9 @@ export const useAudioDetector = ({
   useEffect(() => {
     if (!localStream) return;
 
-    audioContextRef.current = new AudioContext();
+    if (!audioContextRef.current || audioContextRef.current.state === 'closed') {
+      audioContextRef.current = new AudioContext();
+    }
     analyserRef.current = audioContextRef.current.createAnalyser();
 
     analyserRef.current.fftSize = 2048;
@@ -61,7 +64,7 @@ export const useAudioDetector = ({
       const average =
         dataArrayRef.current.reduce((a, b) => a + b) /
         dataArrayRef.current.length;
-      const db = 20 * Math.log10(average / 255);
+      const db = convertAmplitudeToDecibels(average);
 
       setSpeakingStates((prev) => ({
         ...prev,
@@ -69,29 +72,16 @@ export const useAudioDetector = ({
       }));
     };
 
-    intervalRefs.current.local = setInterval(checkLocalAudio, TIMER_INTERVAL);
-
-    if (connectionCount === 0) return;
+    intervalRefs.current.local = setInterval(checkLocalAudio, TIMER_INTERVAL_MS);
 
     // 각 피어에 대해 오디오 레벨 모니터링
-    Object.entries(peerConnections.current).forEach(([peerId, connection]) => {
-      if (intervalRefs.current[peerId]) {
+    if (connectionCount > 0) {
+      Object.entries(peerConnections.current).forEach(([peerId, connection]) => {
         clearInterval(intervalRefs.current[peerId]);
-      }
-
-      if (!intervalRefs.current[peerId]) {
         intervalRefs.current[peerId] = setInterval(async () => {
           try {
             const stats = await connection.getStats();
-            let audioLevel = -Infinity;
-
-            stats.forEach((report) => {
-              if (report.type === "inbound-rtp" && report.kind === "audio") {
-                audioLevel = report.audioLevel
-                  ? 20 * Math.log10(report.audioLevel) // dB로 변환
-                  : -Infinity;
-              }
-            });
+            const audioLevel = extractAudioLevelFromStats(stats);
 
             setSpeakingStates((prev) => ({
               ...prev,
@@ -100,9 +90,9 @@ export const useAudioDetector = ({
           } catch (error) {
             console.error(error);
           }
-        }, TIMER_INTERVAL);
-      }
-    });
+        }, TIMER_INTERVAL_MS);
+      });
+    }
 
     return () => {
       Object.values(intervalRefs.current).forEach((interval) => {

@@ -16,7 +16,7 @@ const SidebarMenu = ({
   onClick,
 }: SidebarMenuProps) => {
   const activeClass = isSelected
-    ? "bg-[#53D187] dark:text-gray-black text-white text-semibold-m" // TODO: 나중에 색상 시스템 전체적으로 밝게 업데이트 예정
+    ? "bg-green-100 dark:text-gray-black text-white text-semibold-m"
     : "bg-transparent dark:text-white text-gray-black text-medium-l transition-color duration-300 hover:bg-gray-200/30";
 
   return (

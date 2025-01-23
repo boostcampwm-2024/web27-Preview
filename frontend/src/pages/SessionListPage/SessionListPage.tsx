@@ -39,7 +39,7 @@ const SessionListPage = () => {
           <TabContainer currentTab={currentTab} setCurrentTab={setCurrentTab} />
           <Link
             to="/sessions/create"
-            className="flex items-center gap-1 text-semibold-m text-gray-black pr-1 pb-2 hover:text-green-400"
+            className="flex items-center gap-1 text-semibold-r text-gray-black pr-1 pb-2 hover:text-green-400"
           >
             <IoMdAdd />
             <span>세션 생성하기</span>

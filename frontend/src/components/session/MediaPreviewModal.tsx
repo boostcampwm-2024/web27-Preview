@@ -65,6 +65,19 @@ const MediaPreviewModal = ({
     }
   }, [modal.dialogRef.current]);
 
+  const handleReject = () => {
+    onReject();
+    setReady(false);
+    preview?.getTracks().forEach((track) => track.stop());
+  }
+
+  const handleConfirm = () => {
+    onConfirm();
+    setReady(true);
+    modal.closeModal();
+    preview?.getTracks().forEach((track) => track.stop());
+  }
+
   return (
     modal.isOpen && (
       <dialog
@@ -116,11 +129,7 @@ const MediaPreviewModal = ({
           className={"text-semibold-r mt-4 flex w-full justify-center gap-4"}
         >
           <button
-            onClick={() => {
-              onReject();
-              setReady(false);
-              preview?.getTracks().forEach((track) => track.stop());
-            }}
+            onClick={handleReject}
             className={
               "rounded-custom-m px-16 py-4 bg-gray-50 hover:bg-gray-100"
             }
@@ -128,12 +137,7 @@ const MediaPreviewModal = ({
             세션 나가기
           </button>
           <button
-            onClick={() => {
-              onConfirm();
-              setReady(true);
-              modal.closeModal();
-              preview?.getTracks().forEach((track) => track.stop());
-            }}
+            onClick={handleConfirm}
             className={
               "rounded-custom-m px-16 py-4 bg-green-500 text-white hover:bg-green-600"
             }

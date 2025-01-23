@@ -1,4 +1,5 @@
 import { MutableRefObject, useEffect, useRef, useState } from "react";
+import { createDummyStream } from "./utils/createDummyStream";
 
 type MediaStreamType = "video" | "audio";
 interface PeerConnectionsMap {
@@ -13,24 +14,17 @@ interface DataChannelMessage {
 
 const useMediaDevices = (dataChannels: DataChannels) => {
   // 유저의 미디어 장치 리스트
-  const [userAudioDevices, setUserAudioDevices] = useState<MediaDeviceInfo[]>(
-    []
-  );
-  const [userVideoDevices, setUserVideoDevices] = useState<MediaDeviceInfo[]>(
-    []
-  );
+  const [userAudioDevices, setUserAudioDevices] = useState<MediaDeviceInfo[]>([]);
+  const [userVideoDevices, setUserVideoDevices] = useState<MediaDeviceInfo[]>([]);
 
   // 유저가 선택한 미디어 장치
-  const [selectedVideoDeviceId, setSelectedVideoDeviceId] =
-    useState<string>("");
-  const [selectedAudioDeviceId, setSelectedAudioDeviceId] =
-    useState<string>("");
+  const [selectedVideoDeviceId, setSelectedVideoDeviceId] = useState<string>("");
+  const [selectedAudioDeviceId, setSelectedAudioDeviceId] = useState<string>("");
 
   // 본인 미디어 스트림
   const [stream, setStream] = useState<MediaStream | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
   const [videoLoading, setVideoLoading] = useState<boolean>(false);
-  // const [audioLoading, setAudioLoading] = useState<boolean>(false);
 
   // 미디어 온오프 상태
   const [isVideoOn, setIsVideoOn] = useState<boolean>(true);
@@ -41,14 +35,9 @@ const useMediaDevices = (dataChannels: DataChannels) => {
     const getUserDevices = async () => {
       try {
         const devices = await navigator.mediaDevices.enumerateDevices();
-        const audioDevices = devices.filter(
-          (device) => device.kind === "audioinput"
-        );
-        const videoDevices = devices.filter(
-          (device) => device.kind === "videoinput"
-        );
-        const dontHavePermission =
-          devices.find((device) => device.deviceId !== "") === undefined;
+        const audioDevices = devices.filter((device) => device.kind === "audioinput");
+        const videoDevices = devices.filter((device) => device.kind === "videoinput");
+        const dontHavePermission = devices.find((device) => device.deviceId !== "") === undefined;
         if (dontHavePermission) {
           setUserAudioDevices([]);
           setUserVideoDevices([]);
@@ -92,18 +81,16 @@ const useMediaDevices = (dataChannels: DataChannels) => {
       try {
         videoStream = isVideoOn
           ? await navigator.mediaDevices.getUserMedia({
-              video: selectedVideoDeviceId
-                ? { deviceId: selectedVideoDeviceId }
-                : true,
-              audio: false,
-            })
+            video: selectedVideoDeviceId
+              ? { deviceId: selectedVideoDeviceId }
+              : true,
+            audio: false,
+          })
           : null;
       } catch (videoError) {
         console.warn("비디오 스트림을 가져오는데 실패했습니다:", videoError);
         setIsVideoOn(false);
       }
-
-      console.log(isVideoOn);
 
       try {
         audioStream = await navigator.mediaDevices.getUserMedia({
@@ -150,15 +137,15 @@ const useMediaDevices = (dataChannels: DataChannels) => {
       return navigator.mediaDevices.getUserMedia(
         mediaType === "audio"
           ? {
-              audio: selectedAudioDeviceId
-                ? { deviceId: selectedAudioDeviceId }
-                : true,
-            }
+            audio: selectedAudioDeviceId
+              ? { deviceId: selectedAudioDeviceId }
+              : true,
+          }
           : {
-              video: selectedVideoDeviceId
-                ? { deviceId: selectedVideoDeviceId }
-                : true,
-            }
+            video: selectedVideoDeviceId
+              ? { deviceId: selectedVideoDeviceId }
+              : true,
+          }
       );
     } catch (error) {
       console.error(error);
@@ -181,7 +168,6 @@ const useMediaDevices = (dataChannels: DataChannels) => {
       if (isVideoOn) {
         for (const videoTrack of stream.getVideoTracks()) {
           // 비디오 끄기
-
           videoTrack.stop();
 
           const blackTrack = createDummyStream();
@@ -275,22 +261,6 @@ const useMediaDevices = (dataChannels: DataChannels) => {
     } catch (error) {
       console.error("오디오 스트림을 토글 할 수 없었습니다.", error);
     }
-  };
-
-  const createDummyStream = () => {
-    const blackCanvas = document.createElement("canvas");
-    blackCanvas.width = 640;
-    blackCanvas.height = 480;
-    const ctx = blackCanvas.getContext("2d");
-    ctx!.fillRect(0, 0, blackCanvas.width, blackCanvas.height);
-
-    const blackStream = blackCanvas.captureStream();
-    const blackTrack = blackStream.getVideoTracks()[0];
-    Object.defineProperty(blackTrack, "label", {
-      value: "blackTrack",
-      writable: false,
-    });
-    return blackTrack;
   };
 
   return {

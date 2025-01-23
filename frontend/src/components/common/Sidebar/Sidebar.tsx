@@ -1,8 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-// import { MdDarkMode, MdLightMode } from "react-icons/md";
 import { FaGithub } from "react-icons/fa6";
-// import useTheme from "@hooks/useTheme.ts";
 import useAuth from "@/hooks/useAuth";
 import {
   authenticatedRoutes,
@@ -15,11 +13,10 @@ const Sidebar = () => {
   const { isLoggedIn, logOut } = useAuth();
   const [selected, setSelected] = useState<string>("");
   const [currentRoutes, setCurrentRoutes] = useState<Route[]>([]);
-  // const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
 
   useEffect(() => {
-    setSelected(window.location.pathname);
+    setSelected("/" + window.location.pathname.split("/")[1]);
   }, []);
 
   const logoutHandler = () => {
@@ -86,16 +83,6 @@ const Sidebar = () => {
             <FaGithub /> BOOSKIT
           </span>
         </a>
-        {/*<button*/}
-        {/*  onClick={toggleTheme}*/}
-        {/*  className={*/}
-        {/*    "text-xl dark:bg-gray-100 dark:text-gray-black border border-gray-200 rounded-full p-2 dark:border-gray-200 hover:bg-gray-200/80 dark:hover:bg-gray-200/80  transition-colors"*/}
-        {/*  }*/}
-        {/*  aria-roledescription={"라이트모드와 다크모드 간 전환 버튼"}*/}
-        {/*  aria-label={"테마 변경버튼"}*/}
-        {/*>*/}
-        {/*  {theme === "light" ? <MdLightMode /> : <MdDarkMode />}*/}
-        {/*</button>*/}
       </div>
     </nav>
   );

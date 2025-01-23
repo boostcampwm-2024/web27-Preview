@@ -39,14 +39,17 @@
   --color-gray-400: #6C6C6C;
   --color-gray-500: #5E5E5E;
   --color-gray-600: #3F3F3F;
+  --color-gray-700: #323232;
+  --color-gray-800: #2A2A2A;
+  --color-gray-900: #1C1C1C;
   --color-gray-black: #171717;
 
   /* Green Colors */
   --color-green-50: #F1FBF7;
-  --color-green-100: #01BF6F;
-  --color-green-200: #01AC64;
-  --color-green-300: #019959;
-  --color-green-400: #018F53;
+  --color-green-100: #53D187;
+  --color-green-200: #45CB7D;
+  --color-green-300: #2FC26C;
+  --color-green-400: #12B556;
   --color-green-500: #017343;
   --color-green-600: #005632;
   --color-green-700: #004327;

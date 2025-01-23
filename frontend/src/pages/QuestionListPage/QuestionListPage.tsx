@@ -1,7 +1,7 @@
 import LoadingIndicator from "@components/common/LoadingIndicator.tsx";
 import { useQuestionList } from "@hooks/api/useGetQuestionList.ts";
 import ErrorBlock from "@components/common/Error/ErrorBlock.tsx";
-import QuestionsPreviewList from "@/pages/QuestionListPage/view/QuestionsPreviewList.tsx";
+import QuestionsList from "./view/QuestionsList.tsx";
 import useCategory from "@/pages/QuestionListPage/hooks/useCategory.ts";
 import Pagination from "@components/common/Pagination";
 import { useState } from "react";
@@ -24,6 +24,19 @@ const QuestionListPage = () => {
     limit: 12,
     tab,
   });
+  if (questionLoading) {
+    return <LoadingIndicator loadingState={questionLoading} />;
+  }
+
+  if (error) {
+    return <ErrorBlock error={error} message={"질문지 목록을 불러오는데 실패했습니다."} />;
+  }
+
+  if (!data) {
+    return <div className="text-center mt-12 text-medium-l text-gray-500">데이터를 불러올 수 없습니다.</div>;
+  }
+
+  const questionList = tab === "ALL" ? data.allQuestionLists || [] : data.questionList || [];
 
   return (
     <SidebarPageLayout>
@@ -35,10 +48,8 @@ const QuestionListPage = () => {
           setTab={setTab}
         />
         <div className={"flex flex-col justify-between flex-grow"}>
-          <LoadingIndicator loadingState={questionLoading} />
-          <QuestionsPreviewList
-            questionList={data?.allQuestionLists ?? data?.questionList}
-            questionLoading={questionLoading}
+          <QuestionsList
+            questionList={questionList}
             tab={tab}
           />
           <div className={"mb-20 mt-10"}>
@@ -48,10 +59,6 @@ const QuestionListPage = () => {
               onPageChange={setPage}
             />
           </div>
-          <ErrorBlock
-            error={error}
-            message={"질문지 목록을 불러오는데 실패했습니다!"}
-          />
         </div>
       </div>
     </SidebarPageLayout>

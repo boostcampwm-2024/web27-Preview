@@ -94,20 +94,20 @@ https://github.com/user-attachments/assets/97b7f9fe-2886-477a-aeb0-fc5429675c74
 
 ### [BE] Coturn 설치 및 config 파일 수정
 
-coturn은 WebRTC에서 NAT와 방화벽 문제를 해결하기 위해 사용되는 오픈소스 TURN/STUN 서버이다. 설치 후 `/etc/turnserver.conf` 파일에서 `listening-port`, `external-ip`, `min-port`, `verbose` 등을 설정하여 서버 동작을 최적화했다. 인증 방식(`lt-cred-mech`)과 사용자 계정을 설정해 보안을 강화하며, NAT 뒤에서의 통신을 지원하도록 `external-ip`를 공인 IP와 매핑했다.
+`coturn`은 WebRTC에서 NAT와 방화벽 문제를 해결하기 위해 사용되는 오픈소스 TURN/STUN 서버입니다. 설치 후 `/etc/turnserver.conf` 파일에서 `listening-port`, `external-ip`, `min-port`, `verbose` 등을 설정하여 서버 동작을 최적화했습니다. 인증 방식(`lt-cred-mech`)과 사용자 계정을 설정해 보안을 강화하며, NAT 뒤에서의 통신을 지원하도록 `external-ip`를 공인 IP와 매핑했습니다.
 
 > 작성자: 송수민
 > 
 > 🔗 [coturn 설치 및 config 파일 수정](https://www.notion.so/coturn-config-299c854b69dd4bd9ac5823830ef3bc8d?pvs=21)
 > 
 
-### [BE] TypeORM에서 트랜잭션 범위 최소화하기
+### [BE] 트랜잭션 최적화: queryRunner는 만능이 아니다
 
-질문지 생성과 질문 삭제 기능에서 기존 방식은 `@Transactional()`로 메서드 전체를 감싸 불필요하게 트랜잭션 범위가 넓었다. 개선된 방식은 `queryRunner`를 사용해 쓰기 작업에만 트랜잭션을 적용, 범위를 최소화하여 성능 및 관리 효율성을 높였다. 명시적인 트랜잭션 제어(시작, 커밋, 롤백)로 오류 처리와 자원 관리가 강화되었다.
+프로젝트에서 데이터 일관성을 보장하기 위해 질문지 생성과 질문 삭제 로직에서 트랜잭션이 필요했습니다. 초기에 `@Transactional()`을 사용해 메서드 단위로 트랜잭션을 구현했고, 불필요한 트랜잭션 범위를 없애기 위해 `queryRunner`로 대체해서 개선했습니다. `k6`를 이용한 부하 테스트를 진행했고, 그 결과 `queryRunner`를 사용하는 것이 무조건 성능 개선을 보장하는 것은 아니며, 상황에 따라 적합한 방식을 선택하는 것이 중요하다는 것을 알게 되었습니다.
 
 > 작성자: 송수민
 > 
-> 🔗 [TypeORM에서 트랜잭션 범위 최소화하기](https://www.notion.so/TypeORM-queryRunner-6037e88d14c94cf29046114f5de21e81?pvs=21)
+> 🔗 [트랜잭션 최적화: queryRunner는 만능이 아니다](https://www.notion.so/TypeORM-queryRunner-6037e88d14c94cf29046114f5de21e81?pvs=21)
 > 
 
 ### [FE] 토큰 재발급부터 요청 재시도까지 한번에 axios interceptor

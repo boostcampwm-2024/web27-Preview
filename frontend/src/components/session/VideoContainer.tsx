@@ -120,7 +120,6 @@ const VideoContainer = ({
         isVideoOn={isVideoOn}
         videoLoading={videoLoading || false}
         nickname={nickname}
-        // profileImage={"/snowman-thumbnail.jpg"}
       />
       <VideoReactionBox reaction={reaction} renderReaction={renderReaction} />
     </div>
