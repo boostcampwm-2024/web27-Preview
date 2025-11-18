@@ -25,9 +25,9 @@ const usePeerConnection = (socket: Socket) => {
   const pcConfig = {
     iceServers: [
       {
-        urls: import.meta.env.VITE_STUN_SERVER_URL,
-        username: import.meta.env.VITE_STUN_USER_NAME,
-        credential: import.meta.env.VITE_STUN_CREDENTIAL,
+        urls: import.meta.env.VITE_STUN_SERVER_URL || "stun:stun1.l.google.com:19302",
+        username: import.meta.env.VITE_STUN_USER_NAME || undefined,
+        credential: import.meta.env.VITE_STUN_CREDENTIAL || undefined,
       },
     ],
   };

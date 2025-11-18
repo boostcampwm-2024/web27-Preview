@@ -9,11 +9,11 @@ import { Category } from "@/question-list/entity/category.entity";
 
 export const typeOrmConfig: DataSourceOptions = {
     type: "mysql",
-    host: process.env.MYSQL_HOST,
-    port: parseInt(process.env.MYSQL_PORT) ?? 3306,
-    username: process.env.MYSQL_USERNAME,
-    password: process.env.MYSQL_PASSWORD,
-    database: process.env.MYSQL_DATABASE,
+    host: process.env.MYSQL_HOST || "127.0.0.1",
+    port: parseInt(process.env.MYSQL_PORT || "3306"),
+    username: process.env.MYSQL_USERNAME || "root",
+    password: process.env.MYSQL_PASSWORD || "mysql",
+    database: process.env.MYSQL_DATABASE || "preview",
     entities: [User, QuestionList, Question, Category],
     namingStrategy: new SnakeNamingStrategy(),
     synchronize: true,

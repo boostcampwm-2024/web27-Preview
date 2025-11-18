@@ -3,7 +3,7 @@ import { PassportStrategy } from "@nestjs/passport";
 import { Strategy } from "passport-custom";
 import { Request } from "express";
 import * as jwt from "jsonwebtoken";
-import "dotenv/config";
+import { jwtConfig } from "@/config/jwt.config";
 
 @Injectable()
 export class AccessTokenStrategy extends PassportStrategy(Strategy, "jwt") {
@@ -13,7 +13,7 @@ export class AccessTokenStrategy extends PassportStrategy(Strategy, "jwt") {
 
             if (!token) return { jwtToken: null };
 
-            const decoded = jwt.verify(token, process.env.JWT_ACCESS_TOKEN_SECRET_KEY);
+            const decoded = jwt.verify(token, jwtConfig.accessTokenKey);
             const { userId, username } = decoded as any;
 
             return {

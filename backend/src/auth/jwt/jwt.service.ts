@@ -5,6 +5,7 @@ import { UserRepository } from "../../user/user.repository";
 import { DAY, HOUR } from "../../utils/time";
 import { IJwtToken, IJwtTokenPair } from "./jwt.model";
 import { UserInternalDto } from "@/user/dto/user.dto";
+import { jwtConfig } from "@/config/jwt.config";
 
 @Injectable()
 export class JwtService {
@@ -48,7 +49,7 @@ export class JwtService {
                 loginType: user.loginType,
             },
             {
-                secret: process.env.JWT_ACCESS_TOKEN_SECRET_KEY,
+                secret: jwtConfig.accessTokenKey,
             }
         );
 
@@ -64,7 +65,7 @@ export class JwtService {
                 exp: Date.now() + JwtService.REFRESH_TOKEN_TIME,
             },
             {
-                secret: process.env.JWT_REFRESH_TOKEN_SECRET_KEY,
+                secret: jwtConfig.refreshTokenKey,
                 audience: String(id),
             }
         );

@@ -9,7 +9,7 @@ import {
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { Response } from "express";
-import { setCookieConfig } from "@/infra/cookie/cookie.config";
+import { setCookieConfig } from "@/config/cookie.config";
 import { JwtPayload, JwtTokenPair } from "./jwt/jwt.decorator";
 import { IJwtPayload, IJwtToken, IJwtTokenPair } from "./jwt/jwt.model";
 

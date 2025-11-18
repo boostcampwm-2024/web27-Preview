@@ -258,7 +258,7 @@ export class RoomService {
         }
 
         return createHash("sha256")
-            .update(id + process.env.SESSION_HASH)
+            .update(id + "")
             .digest("hex");
     }
 }

@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import useSocketStore from "../stores/useSocketStore";
 
-const socketURL = import.meta.env.VITE_SIGNALING_SERVER;
+const socketURL = import.meta.env.VITE_SIGNALING_SERVER || "localhost:3000";
 
 const useSocket = () => {
   const { socket, connect, disconnect } = useSocketStore();
