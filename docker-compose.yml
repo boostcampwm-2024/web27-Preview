@@ -1,13 +1,11 @@
-version: '3'
-
 services:
   mysql:
-    image: mysql:latest
+    image: mysql:8.4.7
     container_name: mysql
     ports:
       - '3306:3306'
     environment:
-      MYSQL_ROOT_PASSWORD: dbcadmium
+      MYSQL_ROOT_PASSWORD: "mysql"
       MYSQL_DATABASE: preview
       TZ: Asia/Seoul
     command:
@@ -17,10 +15,56 @@ services:
       - ./mysql-data:/var/lib/mysql
 
   redis-stack:
-    image: redis/redis-stack:latest
+    image: redis/redis-stack:7.2.0-v19
     container_name: redis-stack
     ports:
       - "6379:6379"
       - "8001:8001"
     volumes:
       - ./redis-data/:/data
+
+  backend:
+    container_name: backend
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+      - /usr/src/app/backend/node_modules
+      - /usr/src/app/frontend/node_modules
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mysql
+      - redis-stack
+    environment:
+      MYSQL_HOST: mysql
+      REDIS_HOST: redis-stack
+    working_dir: /usr/src/app
+    tty: true
+    command: pnpm --filter backend start # backend의 start 실행
+
+  frontend:
+    container_name: frontend
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+      - /usr/src/app/backend/node_modules
+      - /usr/src/app/frontend/node_modules
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+    environment:
+      VITE_API_URL: http://backend:3000
+    working_dir: /usr/src/app
+    tty: true
+    command: pnpm --filter frontend run dev --host
+
+volumes:
+  mysql-data:
+  redis-data:
