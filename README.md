@@ -14,12 +14,12 @@
 <div align="center">
 
 [노션 홈](https://alpine-tiglon-9f0.notion.site/PREVIEW-HOME-12d696f85d1f805b9787e26374b3d209?pvs=4) | [프로젝트](https://github.com/orgs/boostcampwm-2024/projects/51) | [피그마](https://www.figma.com/file/YunC4M9LWDRROD2pyXL8jE/boostcamp-booskit)
-
-[위키](https://github.com/boostcampwm-2024/web27-Preview/wiki) | [배포 링크](https://boostcamp-preview.kro.kr)
+ | [위키](https://github.com/boostcampwm-2024/web27-Preview/wiki) 
 
 ![Hits](https://hits.sh/github.com/boostcampwm-2024/web27-Preview.svg?style=flat-square)
 
 </div>
+
 
 ## ☃️ 프로젝트 소개
 
@@ -30,6 +30,19 @@
 나의 성공적인 면접 스터디, **PREVIEW**로 시작해보세요!
 
 **실시간 화상 스터디**로 장소에 구애받지 않고 **면접 연습**을 시작할 수 있습니다.
+
+## 실행해보기
+
+현재 배포 링크는 중단되었습니다.
+
+하지만 로컬로 각자 테스트해볼 수 있도록 Dockerized 해두었습니다!
+
+아래 명령어대로 `Dockerfile` 을 빌드하면서 Docker compose 를 실행하면 테스트해볼 수 있습니다.
+
+```shell
+docker compose up --build
+# 이후 http://localhost:5173 으로 접속
+```
 
 ## 📣 핵심 기능
 
